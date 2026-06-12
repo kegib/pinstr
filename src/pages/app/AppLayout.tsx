@@ -77,9 +77,9 @@ export function AppLayout() {
     }
   }
 
-  const openNewBookmark = (url = '') => {
+  const openNewBookmark = (url?: string) => {
     setEditBookmark(undefined);
-    setNewBookmarkUrl(url);
+    setNewBookmarkUrl(typeof url === 'string' ? url : '');
     setNewBookmarkOpen(true);
   };
 
@@ -157,7 +157,7 @@ export function AppLayout() {
       <div className="h-screen flex flex-col overflow-hidden">
         <AppNavBar
           onMenuToggle={() => setSidebarOpen((p) => !p)}
-          onNewBookmark={openNewBookmark}
+          onNewBookmark={() => openNewBookmark()}
           onCommandPalette={() => setCommandOpen(true)}
         />
 
@@ -167,8 +167,8 @@ export function AppLayout() {
             <AppSidebar
               collections={collectionsHook.collections}
               bookmarkCounts={bookmarkCounts}
-              onNewCollection={openNewCollection}
-              onNewBookmark={openNewBookmark}
+              onNewCollection={() => openNewCollection()}
+              onNewBookmark={() => openNewBookmark()}
             />
           </div>
 
@@ -202,7 +202,7 @@ export function AppLayout() {
       <Button
         size="icon"
         className="fixed bottom-6 right-6 h-14 w-14 rounded-full shadow-lg lg:hidden z-30"
-        onClick={openNewBookmark}
+        onClick={() => openNewBookmark()}
       >
         <Plus className="h-6 w-6" />
       </Button>

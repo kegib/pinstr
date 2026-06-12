@@ -93,7 +93,7 @@ export function AppNavBar({
           <Button
             size="sm"
             className="hidden sm:flex gap-1.5"
-            onClick={onNewBookmark}
+            onClick={() => onNewBookmark()}
           >
             <Plus className="h-4 w-4" />
             <span className="hidden md:inline">Add</span>
