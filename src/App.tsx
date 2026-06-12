@@ -8,6 +8,7 @@ import { Suspense } from 'react';
 import NostrProvider from '@/components/NostrProvider';
 import { NostrSync } from '@/components/NostrSync';
 import { Toaster } from "@/components/ui/toaster";
+import { Toaster as SonnerToaster } from 'sonner';
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { NostrLoginProvider } from '@nostrify/react/login';
 import { AppProvider } from '@/components/AppProvider';
@@ -54,6 +55,7 @@ export function App() {
               <NostrSync />
               <TooltipProvider>
                 <Toaster />
+                <SonnerToaster richColors position="bottom-right" />
                 <Suspense>
                   <AppRouter />
                 </Suspense>
