@@ -74,11 +74,11 @@
   }
 }
 
-/* ─── Pinstr Light Theme ─────────────────────────────────────────────────── */
+/* ─── Keepstr Light Theme ─────────────────────────────────────────────────── */
 :root {
   --radius: 0.75rem;
 
-  /* Pinstr uses a warm slate + indigo palette */
+  /* Keepstr uses a warm slate + indigo palette */
   --background: hsl(220 20% 98%);
   --foreground: hsl(224 71% 4%);
 
@@ -124,7 +124,7 @@
   --sidebar-ring: hsl(243 75% 59%);
 }
 
-/* ─── Pinstr Dark Theme ──────────────────────────────────────────────────── */
+/* ─── Keepstr Dark Theme ──────────────────────────────────────────────────── */
 .dark {
   --background: hsl(224 71% 4%);
   --foreground: hsl(213 31% 91%);
@@ -201,7 +201,7 @@
   background: hsl(var(--muted-foreground) / 0.5);
 }
 
-/* ─── Pinstr animations ──────────────────────────────────────────────────── */
+/* ─── Keepstr animations ──────────────────────────────────────────────────── */
 @keyframes fade-in {
   from { opacity: 0; transform: translateY(4px); }
   to { opacity: 1; transform: translateY(0); }

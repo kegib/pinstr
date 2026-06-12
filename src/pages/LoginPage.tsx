@@ -10,8 +10,8 @@ export default function LoginPage() {
   const { currentUser, isLoading } = useLoggedInAccounts();
 
   useSeoMeta({
-    title: 'Sign In — Pinstr',
-    description: 'Sign in to Pinstr with your Nostr identity.',
+    title: 'Sign In — Keepstr',
+    description: 'Sign in to Keepstr with your Nostr identity.',
   });
 
   useEffect(() => {
@@ -36,7 +36,7 @@ export default function LoginPage() {
             <div className="w-7 h-7 rounded-lg bg-primary flex items-center justify-center">
               <Bookmark className="w-3.5 h-3.5 text-primary-foreground" />
             </div>
-            <span className="font-bold">Pinstr</span>
+            <span className="font-bold">Keepstr</span>
           </div>
         </div>
       </header>
@@ -48,7 +48,7 @@ export default function LoginPage() {
             <div className="w-14 h-14 rounded-2xl bg-primary flex items-center justify-center mx-auto mb-4">
               <Bookmark className="w-7 h-7 text-primary-foreground" />
             </div>
-            <h1 className="text-2xl font-bold mb-2">Welcome to Pinstr</h1>
+            <h1 className="text-2xl font-bold mb-2">Welcome to Keepstr</h1>
             <p className="text-muted-foreground">
               Connect your Nostr identity to access your bookmarks.
             </p>

@@ -18,7 +18,7 @@ import {
   Search,
 } from 'lucide-react';
 import type { LocalBookmark, LocalCollection } from '@/lib/types';
-import { usePinstrSearch } from '@/hooks/usePinstrSearch';
+import { useKeepstrSearch } from '@/hooks/useKeepstrSearch';
 
 interface CommandPaletteProps {
   open: boolean;
@@ -39,7 +39,7 @@ export function CommandPalette({
 }: CommandPaletteProps) {
   const navigate = useNavigate();
   const [query, setQuery] = useState('');
-  const { results } = usePinstrSearch(bookmarks);
+  const { results } = useKeepstrSearch(bookmarks);
 
   // Keyboard shortcut
   useEffect(() => {

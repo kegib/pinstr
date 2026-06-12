@@ -78,7 +78,7 @@ export function AppSidebar({
         <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
           <Bookmark className="w-4 h-4 text-primary-foreground" />
         </div>
-        <span className="font-bold text-lg tracking-tight">Pinstr</span>
+        <span className="font-bold text-lg tracking-tight">Keepstr</span>
       </div>
 
       <ScrollArea className="flex-1 px-3 py-3">

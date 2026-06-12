@@ -4,7 +4,7 @@ import type { LocalBookmark } from '@/lib/types';
 import MiniSearch from 'minisearch';
 import type { SearchDocument } from '@/lib/search';
 
-export function usePinstrSearch(bookmarks: LocalBookmark[]) {
+export function useKeepstrSearch(bookmarks: LocalBookmark[]) {
   const [query, setQuery] = useState('');
   const indexRef = useRef<MiniSearch<SearchDocument> | null>(null);
 

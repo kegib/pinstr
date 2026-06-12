@@ -13,7 +13,7 @@ import AppNew from "./pages/app/AppNew";
 import AppImport from "./pages/app/AppImport";
 import AppSettings from "./pages/app/AppSettings";
 import PublicProfile from "./pages/p/PublicProfile";
-import { RequireAuth } from "./components/pinstr/RequireAuth";
+import { RequireAuth } from "./components/keepstr/RequireAuth";
 import { NIP19Page } from "./pages/NIP19Page";
 import NotFound from "./pages/NotFound";
 

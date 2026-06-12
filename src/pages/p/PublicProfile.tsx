@@ -7,20 +7,20 @@ import { Globe, Lock, Bookmark, ExternalLink } from 'lucide-react';
 import type { NostrMetadata, NostrEvent } from '@nostrify/nostrify';
 import { NSchema as n } from '@nostrify/nostrify';
 import {
-  getPinstrEventType,
+  getKeepstrEventType,
   isPublicEvent,
   getTagValue,
   parsePublicBookmarkTags,
   parsePublicCollectionTags,
   extractIdFromDTag,
-  PINSTR_KIND,
+  KEEPSTR_KIND,
 } from '@/lib/events';
 import type { BookmarkData, CollectionData } from '@/lib/types';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
-import { TagBadge } from '@/components/pinstr/TagBadge';
+import { TagBadge } from '@/components/keepstr/TagBadge';
 
 interface PublicBookmark extends BookmarkData {
   notes: string;
@@ -43,9 +43,9 @@ export default function PublicProfile() {
 
   useSeoMeta({
     title: profile?.name
-      ? `${profile.name}'s bookmarks — Pinstr`
-      : 'Public Profile — Pinstr',
-    description: profile?.about ?? 'View this user\'s public bookmarks on Pinstr.',
+      ? `${profile.name}'s bookmarks — Keepstr`
+      : 'Public Profile — Keepstr',
+    description: profile?.about ?? 'View this user\'s public bookmarks on Keepstr.',
   });
 
   useEffect(() => {
@@ -88,13 +88,13 @@ export default function PublicProfile() {
           } catch { /* ignore */ }
         }
 
-        // Fetch public pinstr events
+        // Fetch public keepstr events
         const events = await nostr.query(
           [
             {
-              kinds: [PINSTR_KIND],
+              kinds: [KEEPSTR_KIND],
               authors: [pk],
-              '#L': ['pinstr'],
+              '#L': ['keepstr'],
               '#public': ['true'],
             },
           ],
@@ -107,11 +107,11 @@ export default function PublicProfile() {
         for (const event of events) {
           if (!isPublicEvent(event.tags)) continue;
 
-          const type = getPinstrEventType(event.tags);
+          const type = getKeepstrEventType(event.tags);
           const dTag = getTagValue(event.tags, 'd') ?? '';
 
           if (type === 'bookmark') {
-            const id = extractIdFromDTag(dTag, 'pinstr/b/');
+            const id = extractIdFromDTag(dTag, 'keepstr/b/');
             const data = parsePublicBookmarkTags(event.tags);
             publicBookmarks.push({
               id,
@@ -127,7 +127,7 @@ export default function PublicProfile() {
               savedAt: event.created_at * 1000,
             });
           } else if (type === 'collection') {
-            const id = extractIdFromDTag(dTag, 'pinstr/c/');
+            const id = extractIdFromDTag(dTag, 'keepstr/c/');
             const data = parsePublicCollectionTags(event.tags);
             publicCollections.push({
               id,
@@ -209,7 +209,7 @@ export default function PublicProfile() {
             <div className="w-7 h-7 rounded-lg bg-primary flex items-center justify-center">
               <Bookmark className="w-3.5 h-3.5 text-primary-foreground" />
             </div>
-            <span className="font-bold text-base">Pinstr</span>
+            <span className="font-bold text-base">Keepstr</span>
           </Link>
           <Link
             to="/app"

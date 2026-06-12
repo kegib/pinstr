@@ -3,9 +3,9 @@ import { useSearchParams } from 'react-router-dom';
 import { useSeoMeta } from '@unhead/react';
 import { toast } from 'sonner';
 import { useAppLayout } from './AppLayout';
-import { usePinstrSearch } from '@/hooks/usePinstrSearch';
-import { BookmarkGrid } from '@/components/pinstr/BookmarkGrid';
-import { ConfirmDialog } from '@/components/pinstr/ConfirmDialog';
+import { useKeepstrSearch } from '@/hooks/useKeepstrSearch';
+import { BookmarkGrid } from '@/components/keepstr/BookmarkGrid';
+import { ConfirmDialog } from '@/components/keepstr/ConfirmDialog';
 import type { LocalBookmark } from '@/lib/types';
 import { Input } from '@/components/ui/input';
 import { Search } from 'lucide-react';
@@ -14,10 +14,10 @@ export default function AppSearch() {
   const [searchParams, setSearchParams] = useSearchParams();
   const initialQuery = searchParams.get('q') ?? '';
 
-  useSeoMeta({ title: `Search: ${initialQuery} — Pinstr` });
+  useSeoMeta({ title: `Search: ${initialQuery} — Keepstr` });
 
   const { bookmarks, collections, openEditBookmark, deleteBookmarkAndSync } = useAppLayout();
-  const { query, setQuery, results, isSearching } = usePinstrSearch(bookmarks);
+  const { query, setQuery, results, isSearching } = useKeepstrSearch(bookmarks);
   const [deleteTarget, setDeleteTarget] = useState<LocalBookmark | null>(null);
 
   useEffect(() => {

@@ -1,44 +1,44 @@
 /**
- * Nostr event builders for Pinstr.
+ * Nostr event builders for Keepstr.
  * All custom events use kind 30078 (NIP-78 application-specific data).
  */
 
 import type { BookmarkData, CollectionData, UserSettings } from './types';
 
-export const PINSTR_KIND = 30078;
+export const KEEPSTR_KIND = 30078;
 export const NIP51_BOOKMARKS_KIND = 10003;
 export const NIP51_COLLECTION_KIND = 30003;
 export const DELETION_KIND = 5;
 
 // ─── Event tag helpers ───────────────────────────────────────────────────────
 
-export function pinstrBookmarkDTag(id: string) {
-  return `pinstr/b/${id}`;
+export function keepstrBookmarkDTag(id: string) {
+  return `keepstr/b/${id}`;
 }
 
-export function pinstrCollectionDTag(id: string) {
-  return `pinstr/c/${id}`;
+export function keepstrCollectionDTag(id: string) {
+  return `keepstr/c/${id}`;
 }
 
-export const PINSTR_SETTINGS_DTAG = 'pinstr/settings';
+export const KEEPSTR_SETTINGS_DTAG = 'keepstr/settings';
 
 function labelTags(type: 'bookmark' | 'collection' | 'settings'): string[][] {
   return [
-    ['L', 'pinstr'],
-    ['l', type, 'pinstr'],
+    ['L', 'keepstr'],
+    ['l', type, 'keepstr'],
   ];
 }
 
 // ─── Bookmark event builders ─────────────────────────────────────────────────
 
 export interface PrivateBookmarkEventTemplate {
-  kind: typeof PINSTR_KIND;
+  kind: typeof KEEPSTR_KIND;
   tags: string[][];
   content: string; // NIP-44 encrypted JSON
 }
 
 export interface PublicBookmarkEventTemplate {
-  kind: typeof PINSTR_KIND;
+  kind: typeof KEEPSTR_KIND;
   tags: string[][];
   content: string; // user notes (plaintext)
 }
@@ -48,9 +48,9 @@ export function buildPrivateBookmarkEvent(
   encryptedContent: string,
 ): PrivateBookmarkEventTemplate {
   return {
-    kind: PINSTR_KIND,
+    kind: KEEPSTR_KIND,
     tags: [
-      ['d', pinstrBookmarkDTag(bookmark.id)],
+      ['d', keepstrBookmarkDTag(bookmark.id)],
       ...labelTags('bookmark'),
     ],
     content: encryptedContent,
@@ -61,7 +61,7 @@ export function buildPublicBookmarkEvent(
   bookmark: BookmarkData,
 ): PublicBookmarkEventTemplate {
   const tags: string[][] = [
-    ['d', pinstrBookmarkDTag(bookmark.id)],
+    ['d', keepstrBookmarkDTag(bookmark.id)],
     ...labelTags('bookmark'),
     ['r', bookmark.url],
     ['title', bookmark.title],
@@ -82,7 +82,7 @@ export function buildPublicBookmarkEvent(
   }
 
   return {
-    kind: PINSTR_KIND,
+    kind: KEEPSTR_KIND,
     tags,
     content: bookmark.notes,
   };
@@ -93,11 +93,11 @@ export function buildPublicBookmarkEvent(
 export function buildPrivateCollectionEvent(
   collection: CollectionData,
   encryptedContent: string,
-): { kind: typeof PINSTR_KIND; tags: string[][]; content: string } {
+): { kind: typeof KEEPSTR_KIND; tags: string[][]; content: string } {
   return {
-    kind: PINSTR_KIND,
+    kind: KEEPSTR_KIND,
     tags: [
-      ['d', pinstrCollectionDTag(collection.id)],
+      ['d', keepstrCollectionDTag(collection.id)],
       ...labelTags('collection'),
     ],
     content: encryptedContent,
@@ -106,9 +106,9 @@ export function buildPrivateCollectionEvent(
 
 export function buildPublicCollectionEvent(
   collection: CollectionData,
-): { kind: typeof PINSTR_KIND; tags: string[][]; content: string } {
+): { kind: typeof KEEPSTR_KIND; tags: string[][]; content: string } {
   const tags: string[][] = [
-    ['d', pinstrCollectionDTag(collection.id)],
+    ['d', keepstrCollectionDTag(collection.id)],
     ...labelTags('collection'),
     ['title', collection.name],
     ['public', 'true'],
@@ -122,7 +122,7 @@ export function buildPublicCollectionEvent(
   }
 
   return {
-    kind: PINSTR_KIND,
+    kind: KEEPSTR_KIND,
     tags,
     content: '',
   };
@@ -132,11 +132,11 @@ export function buildPublicCollectionEvent(
 
 export function buildSettingsEvent(
   encryptedContent: string,
-): { kind: typeof PINSTR_KIND; tags: string[][]; content: string } {
+): { kind: typeof KEEPSTR_KIND; tags: string[][]; content: string } {
   return {
-    kind: PINSTR_KIND,
+    kind: KEEPSTR_KIND,
     tags: [
-      ['d', PINSTR_SETTINGS_DTAG],
+      ['d', KEEPSTR_SETTINGS_DTAG],
       ...labelTags('settings'),
     ],
     content: encryptedContent,
@@ -203,13 +203,13 @@ export function isPublicEvent(tags: string[][]): boolean {
   return tags.some(([t, v]) => t === 'public' && v === 'true');
 }
 
-export function getPinstrEventType(
+export function getKeepstrEventType(
   tags: string[][],
 ): 'bookmark' | 'collection' | 'settings' | null {
   const dTag = getTagValue(tags, 'd') ?? '';
-  if (dTag.startsWith('pinstr/b/')) return 'bookmark';
-  if (dTag.startsWith('pinstr/c/')) return 'collection';
-  if (dTag === 'pinstr/settings') return 'settings';
+  if (dTag.startsWith('keepstr/b/')) return 'bookmark';
+  if (dTag.startsWith('keepstr/c/')) return 'collection';
+  if (dTag === 'keepstr/settings') return 'settings';
   return null;
 }
 

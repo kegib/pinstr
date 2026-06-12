@@ -17,9 +17,9 @@ import {
 import { formatDistanceToNow, format } from 'date-fns';
 import { useBookmarks } from '@/hooks/useBookmarks';
 import { useAppLayout } from './AppLayout';
-import { SaveBookmarkModal } from '@/components/pinstr/SaveBookmarkModal';
-import { ConfirmDialog } from '@/components/pinstr/ConfirmDialog';
-import { TagBadge } from '@/components/pinstr/TagBadge';
+import { SaveBookmarkModal } from '@/components/keepstr/SaveBookmarkModal';
+import { ConfirmDialog } from '@/components/keepstr/ConfirmDialog';
+import { TagBadge } from '@/components/keepstr/TagBadge';
 import type { LocalBookmark } from '@/lib/types';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -37,7 +37,7 @@ export default function AppBookmarkDetail() {
   const [deleteOpen, setDeleteOpen] = useState(false);
 
   useSeoMeta({
-    title: bookmark ? `${bookmark.title} — Pinstr` : 'Bookmark — Pinstr',
+    title: bookmark ? `${bookmark.title} — Keepstr` : 'Bookmark — Keepstr',
   });
 
   const reload = useCallback(async () => {

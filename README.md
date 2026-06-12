@@ -1,6 +1,6 @@
-# Pinstr
+# Keepstr
 
-**Pinstr** is a decentralized bookmark manager built on the [Nostr](https://nostr.com) protocol. Save, organize, and optionally share bookmarks — with no server, no sign-up, and no vendor lock-in. Your data lives on Nostr relays and is encrypted by default.
+**Keepstr** is a decentralized bookmark manager built on the [Nostr](https://nostr.com) protocol. Save, organize, and optionally share bookmarks — with no server, no sign-up, and no vendor lock-in. Your data lives on Nostr relays and is encrypted by default.
 
 [![Edit with Shakespeare](https://shakespeare.diy/badge.svg)](https://shakespeare.diy/clone?url=https%3A%2F%2Fgithub.com%2Fkegib%2Fpinstr.git)
 
@@ -70,7 +70,7 @@ Output is in `dist/`. The app is a fully static SPA — deploy to any static hos
 
 ### Logging In
 
-Pinstr uses your Nostr identity. Three login methods are supported:
+Keepstr uses your Nostr identity. Three login methods are supported:
 
 1. **Browser extension (NIP-07)** — Recommended. Works with [Alby](https://getalby.com), [nos2x](https://github.com/fiatjaf/nos2x), [Nostore](https://apps.apple.com/app/nostore/id1666553677), and others.
 2. **Private key (nsec)** — Paste your `nsec1...` key directly. Use only on trusted, private devices. The key is never persisted to storage.
@@ -96,7 +96,7 @@ Go to **Import** in the sidebar. Export your bookmarks from your browser:
 - **Firefox:** Bookmarks → Manage bookmarks → Import & Backup → Export Bookmarks to HTML
 - **Safari:** File → Export Bookmarks
 
-Drop the `.html` file into the import wizard, map folders to Pinstr collections, and click Import.
+Drop the `.html` file into the import wizard, map folders to Keepstr collections, and click Import.
 
 ### Public Profile
 
@@ -116,7 +116,7 @@ Configure relays, default privacy, theme (light/dark/system), and export your bo
 
 ## Nostr Event Schema
 
-Pinstr uses **kind 30078** (NIP-78 addressable application data) for all data. See [`NIP.md`](./NIP.md) for the full event schema specification, including:
+Keepstr uses **kind 30078** (NIP-78 addressable application data) for all data. See [`NIP.md`](./NIP.md) for the full event schema specification, including:
 
 - Private bookmark events (NIP-44 encrypted content)
 - Public bookmark events (plaintext content + metadata tags)
@@ -127,10 +127,10 @@ Pinstr uses **kind 30078** (NIP-78 addressable application data) for all data. S
 
 ### Relay Filter
 
-To query all Pinstr data for a user with any relay client:
+To query all Keepstr data for a user with any relay client:
 
 ```json
-{ "kinds": [30078], "authors": ["<pubkey hex>"], "#L": ["pinstr"] }
+{ "kinds": [30078], "authors": ["<pubkey hex>"], "#L": ["keepstr"] }
 ```
 
 ---
@@ -154,7 +154,7 @@ Making something private strips all metadata tags, re-encrypts, and removes it f
 ```
 src/
 ├── components/
-│   ├── pinstr/          # Pinstr-specific UI components
+│   ├── pinstr/          # Keepstr-specific UI components
 │   │   ├── AppNavBar.tsx
 │   │   ├── AppSidebar.tsx
 │   │   ├── BookmarkCard.tsx

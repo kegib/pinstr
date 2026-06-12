@@ -2,14 +2,14 @@ import { useState } from 'react';
 import { useSeoMeta } from '@unhead/react';
 import { toast } from 'sonner';
 import { useAppLayout } from './AppLayout';
-import { BookmarkGrid } from '@/components/pinstr/BookmarkGrid';
-import { ConfirmDialog } from '@/components/pinstr/ConfirmDialog';
+import { BookmarkGrid } from '@/components/keepstr/BookmarkGrid';
+import { ConfirmDialog } from '@/components/keepstr/ConfirmDialog';
 import type { LocalBookmark } from '@/lib/types';
 import { Button } from '@/components/ui/button';
 import { SortAsc, SortDesc, Grid, List } from 'lucide-react';
 
 export default function AppDashboard() {
-  useSeoMeta({ title: 'All Bookmarks — Pinstr' });
+  useSeoMeta({ title: 'All Bookmarks — Keepstr' });
 
   const {
     bookmarks,

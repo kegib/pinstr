@@ -1,30 +1,30 @@
-# Pinstr — Custom Nostr Event Schemas
+# Keepstr — Custom Nostr Event Schemas
 
-Pinstr uses **kind 30078** (NIP-78 application-specific addressable data) for all data events.
+Keepstr uses **kind 30078** (NIP-78 application-specific addressable data) for all data events.
 Events are identified by `L`/`l` label tags and namespaced `d` tags.
 
-## Kind 30078 — Pinstr Data Events
+## Kind 30078 — Keepstr Data Events
 
-All Pinstr events include these label tags per NIP-32/NIP-78:
+All Keepstr events include these label tags per NIP-32/NIP-78:
 ```json
-["L", "pinstr"],
-["l", "<type>", "pinstr"]
+["L", "keepstr"],
+["l", "<type>", "keepstr"]
 ```
 
 Where `<type>` is `bookmark`, `collection`, or `settings`.
 
 ### Private Bookmark (default)
 
-The `d` tag is `pinstr/b/<nanoid>`. Content is NIP-44 encrypted to the user's own pubkey.
+The `d` tag is `keepstr/b/<nanoid>`. Content is NIP-44 encrypted to the user's own pubkey.
 Tags are minimal to prevent metadata leakage.
 
 ```json
 {
   "kind": 30078,
   "tags": [
-    ["d", "pinstr/b/<nanoid>"],
-    ["L", "pinstr"],
-    ["l", "bookmark", "pinstr"]
+    ["d", "keepstr/b/<nanoid>"],
+    ["L", "keepstr"],
+    ["l", "bookmark", "keepstr"]
   ],
   "content": "<NIP-44 encrypted JSON of BookmarkData>"
 }
@@ -55,9 +55,9 @@ Content is the user's personal notes (plaintext). All metadata in tags.
 {
   "kind": 30078,
   "tags": [
-    ["d", "pinstr/b/<nanoid>"],
-    ["L", "pinstr"],
-    ["l", "bookmark", "pinstr"],
+    ["d", "keepstr/b/<nanoid>"],
+    ["L", "keepstr"],
+    ["l", "bookmark", "keepstr"],
     ["r", "<url>"],
     ["title", "<title>"],
     ["description", "<description>"],
@@ -76,9 +76,9 @@ Content is the user's personal notes (plaintext). All metadata in tags.
 {
   "kind": 30078,
   "tags": [
-    ["d", "pinstr/c/<nanoid>"],
-    ["L", "pinstr"],
-    ["l", "collection", "pinstr"]
+    ["d", "keepstr/c/<nanoid>"],
+    ["L", "keepstr"],
+    ["l", "collection", "keepstr"]
   ],
   "content": "<NIP-44 encrypted JSON of CollectionData>"
 }
@@ -103,9 +103,9 @@ interface CollectionData {
 {
   "kind": 30078,
   "tags": [
-    ["d", "pinstr/c/<nanoid>"],
-    ["L", "pinstr"],
-    ["l", "collection", "pinstr"],
+    ["d", "keepstr/c/<nanoid>"],
+    ["L", "keepstr"],
+    ["l", "collection", "keepstr"],
     ["title", "<name>"],
     ["description", "<description>"],
     ["public", "true"]
@@ -122,9 +122,9 @@ Always encrypted to self.
 {
   "kind": 30078,
   "tags": [
-    ["d", "pinstr/settings"],
-    ["L", "pinstr"],
-    ["l", "settings", "pinstr"]
+    ["d", "keepstr/settings"],
+    ["L", "keepstr"],
+    ["l", "settings", "keepstr"]
   ],
   "content": "<NIP-44 encrypted JSON of UserSettings>"
 }
@@ -141,7 +141,7 @@ Kind 5 events (NIP-09) referencing the event ID of the item to delete.
 
 ## Relay Filter
 
-To query all Pinstr data for a user:
+To query all Keepstr data for a user:
 ```json
-{ "kinds": [30078], "authors": ["<pubkey>"], "#L": ["pinstr"] }
+{ "kinds": [30078], "authors": ["<pubkey>"], "#L": ["keepstr"] }
 ```

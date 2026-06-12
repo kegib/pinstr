@@ -1,6 +1,6 @@
 /**
- * Pinstr sync engine.
- * Subscribes to Nostr relays for kind 30078 events tagged with the pinstr label,
+ * Keepstr sync engine.
+ * Subscribes to Nostr relays for kind 30078 events tagged with the keepstr label,
  * decrypts private events, and upserts into IndexedDB.
  * Also handles publishing events when bookmarks/collections change.
  */
@@ -14,7 +14,7 @@ import {
   nip44Decrypt,
 } from '@/lib/encryption';
 import {
-  getPinstrEventType,
+  getKeepstrEventType,
   isPublicEvent,
   getTagValue,
   parsePublicBookmarkTags,
@@ -28,7 +28,7 @@ import {
   buildDeletionEvent,
   buildNip51BookmarkListEvent,
   buildNip51CollectionEvent,
-  PINSTR_KIND,
+  KEEPSTR_KIND,
   NIP51_BOOKMARKS_KIND,
   NIP51_COLLECTION_KIND,
 } from '@/lib/events';
@@ -37,7 +37,7 @@ import type { NostrEvent } from '@nostrify/nostrify';
 
 export type SyncStatus = 'idle' | 'syncing' | 'error';
 
-export function usePinstrSync() {
+export function useKeepstrSync() {
   const { nostr } = useNostr();
   const { user } = useCurrentUser();
   const [status, setStatus] = useState<SyncStatus>('idle');
@@ -45,10 +45,10 @@ export function usePinstrSync() {
 
   const processEvent = useCallback(
     async (event: NostrEvent) => {
-      if (event.kind !== PINSTR_KIND) return;
+      if (event.kind !== KEEPSTR_KIND) return;
       if (!user) return;
 
-      const type = getPinstrEventType(event.tags);
+      const type = getKeepstrEventType(event.tags);
       if (!type) return;
 
       const isPublic = isPublicEvent(event.tags);
@@ -56,7 +56,7 @@ export function usePinstrSync() {
 
       try {
         if (type === 'bookmark') {
-          const id = extractIdFromDTag(dTag, 'pinstr/b/');
+          const id = extractIdFromDTag(dTag, 'keepstr/b/');
 
           let data: Partial<BookmarkData>;
           if (isPublic) {
@@ -98,7 +98,7 @@ export function usePinstrSync() {
 
           await db.bookmarks.put(bookmark);
         } else if (type === 'collection') {
-          const id = extractIdFromDTag(dTag, 'pinstr/c/');
+          const id = extractIdFromDTag(dTag, 'keepstr/c/');
 
           let data: Partial<CollectionData>;
           if (isPublic) {
@@ -134,7 +134,7 @@ export function usePinstrSync() {
           // Settings are handled separately
         }
       } catch (err) {
-        console.warn('Failed to process Pinstr event', event.id, err);
+        console.warn('Failed to process Keepstr event', event.id, err);
       }
     },
     [user],
@@ -154,9 +154,9 @@ export function usePinstrSync() {
         const events = await nostr.query(
           [
             {
-              kinds: [PINSTR_KIND],
+              kinds: [KEEPSTR_KIND],
               authors: [pubkey],
-              '#L': ['pinstr'],
+              '#L': ['keepstr'],
             },
           ],
           { signal: AbortSignal.timeout(10000) },
@@ -169,7 +169,7 @@ export function usePinstrSync() {
         setStatus('idle');
       } catch (err) {
         if (!controller.signal.aborted) {
-          console.error('Pinstr sync error:', err);
+          console.error('Keepstr sync error:', err);
           setStatus('error');
         }
       }

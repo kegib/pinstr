@@ -5,10 +5,10 @@ import { toast } from 'sonner';
 import { ArrowLeft, Pencil } from 'lucide-react';
 import { useAppLayout } from './AppLayout';
 import { useCollections } from '@/hooks/useCollections';
-import { usePinstrSync } from '@/hooks/usePinstrSync';
-import { BookmarkGrid } from '@/components/pinstr/BookmarkGrid';
-import { CollectionModal } from '@/components/pinstr/CollectionModal';
-import { ConfirmDialog } from '@/components/pinstr/ConfirmDialog';
+import { useKeepstrSync } from '@/hooks/useKeepstrSync';
+import { BookmarkGrid } from '@/components/keepstr/BookmarkGrid';
+import { CollectionModal } from '@/components/keepstr/CollectionModal';
+import { ConfirmDialog } from '@/components/keepstr/ConfirmDialog';
 import type { LocalBookmark } from '@/lib/types';
 import { Button } from '@/components/ui/button';
 
@@ -21,7 +21,7 @@ export default function AppCollectionDetail() {
     deleteBookmarkAndSync,
   } = useAppLayout();
   const collectionsHook = useCollections();
-  const sync = usePinstrSync();
+  const sync = useKeepstrSync();
 
   const collection = useMemo(
     () => collections.find((c) => c.id === id),
@@ -29,7 +29,7 @@ export default function AppCollectionDetail() {
   );
 
   useSeoMeta({
-    title: collection ? `${collection.name} — Pinstr` : 'Collection — Pinstr',
+    title: collection ? `${collection.name} — Keepstr` : 'Collection — Keepstr',
   });
 
   const collectionBookmarks = useMemo(

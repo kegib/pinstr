@@ -3,7 +3,7 @@ import { db } from '@/lib/db';
 import type { UserSettings } from '@/lib/types';
 import { DEFAULT_USER_SETTINGS } from '@/lib/types';
 
-export function usePinstrSettings() {
+export function useKeepstrSettings() {
   const [settings, setSettings] = useState<UserSettings>(DEFAULT_USER_SETTINGS);
   const [loading, setLoading] = useState(true);
 

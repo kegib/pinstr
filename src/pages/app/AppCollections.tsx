@@ -4,19 +4,19 @@ import { toast } from 'sonner';
 import { Plus } from 'lucide-react';
 import { useAppLayout } from './AppLayout';
 import { useCollections } from '@/hooks/useCollections';
-import { usePinstrSync } from '@/hooks/usePinstrSync';
-import { CollectionGrid } from '@/components/pinstr/CollectionGrid';
-import { CollectionModal } from '@/components/pinstr/CollectionModal';
-import { ConfirmDialog } from '@/components/pinstr/ConfirmDialog';
+import { useKeepstrSync } from '@/hooks/useKeepstrSync';
+import { CollectionGrid } from '@/components/keepstr/CollectionGrid';
+import { CollectionModal } from '@/components/keepstr/CollectionModal';
+import { ConfirmDialog } from '@/components/keepstr/ConfirmDialog';
 import type { LocalCollection } from '@/lib/types';
 import { Button } from '@/components/ui/button';
 
 export default function AppCollections() {
-  useSeoMeta({ title: 'Collections — Pinstr' });
+  useSeoMeta({ title: 'Collections — Keepstr' });
 
   const { collections, bookmarkCounts, loadingCollections } = useAppLayout();
   const collectionsHook = useCollections();
-  const sync = usePinstrSync();
+  const sync = useKeepstrSync();
 
   const [editTarget, setEditTarget] = useState<LocalCollection | undefined>();
   const [editOpen, setEditOpen] = useState(false);

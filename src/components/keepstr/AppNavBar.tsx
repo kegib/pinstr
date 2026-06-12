@@ -69,7 +69,7 @@ export function AppNavBar({
         to="/app"
         className="lg:hidden font-bold text-lg tracking-tight text-primary shrink-0"
       >
-        Pinstr
+        Keepstr
       </Link>
 
       {/* Search bar */}

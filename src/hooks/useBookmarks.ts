@@ -36,7 +36,7 @@ export function useBookmarks() {
       };
       await db.bookmarks.add(bookmark);
       await refresh();
-      queryClient.invalidateQueries({ queryKey: ['pinstr', 'bookmarks'] });
+      queryClient.invalidateQueries({ queryKey: ['keepstr', 'bookmarks'] });
       return bookmark;
     },
     [refresh, queryClient],
@@ -46,7 +46,7 @@ export function useBookmarks() {
     async (id: string, changes: Partial<BookmarkData>): Promise<void> => {
       await db.bookmarks.update(id, { ...changes, updatedAt: Date.now() });
       await refresh();
-      queryClient.invalidateQueries({ queryKey: ['pinstr', 'bookmarks'] });
+      queryClient.invalidateQueries({ queryKey: ['keepstr', 'bookmarks'] });
     },
     [refresh, queryClient],
   );
@@ -55,7 +55,7 @@ export function useBookmarks() {
     async (id: string): Promise<void> => {
       await db.bookmarks.delete(id);
       await refresh();
-      queryClient.invalidateQueries({ queryKey: ['pinstr', 'bookmarks'] });
+      queryClient.invalidateQueries({ queryKey: ['keepstr', 'bookmarks'] });
     },
     [refresh, queryClient],
   );

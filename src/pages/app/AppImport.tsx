@@ -1,19 +1,19 @@
 import { useSeoMeta } from '@unhead/react';
 import { toast } from 'sonner';
 import { useAppLayout } from './AppLayout';
-import { ImportWizard } from '@/components/pinstr/ImportWizard';
+import { ImportWizard } from '@/components/keepstr/ImportWizard';
 import { useCollections } from '@/hooks/useCollections';
 import { useBookmarks } from '@/hooks/useBookmarks';
-import { usePinstrSync } from '@/hooks/usePinstrSync';
+import { useKeepstrSync } from '@/hooks/useKeepstrSync';
 import type { ImportedBookmark } from '@/lib/types';
 
 export default function AppImport() {
-  useSeoMeta({ title: 'Import Bookmarks — Pinstr' });
+  useSeoMeta({ title: 'Import Bookmarks — Keepstr' });
 
   const { collections } = useAppLayout();
   const collectionsHook = useCollections();
   const bookmarksHook = useBookmarks();
-  const sync = usePinstrSync();
+  const sync = useKeepstrSync();
 
   const handleCreateCollection = async (name: string) => {
     const col = await collectionsHook.createCollection({ name });

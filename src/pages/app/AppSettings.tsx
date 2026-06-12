@@ -2,8 +2,8 @@ import { useState } from 'react';
 import { useSeoMeta } from '@unhead/react';
 import { toast } from 'sonner';
 import { Plus, Trash2, Moon, Sun, Monitor, Download, Loader2, Wifi } from 'lucide-react';
-import { usePinstrSettings } from '@/hooks/usePinstrSettings';
-import { usePinstrSync } from '@/hooks/usePinstrSync';
+import { useKeepstrSettings } from '@/hooks/useKeepstrSettings';
+import { useKeepstrSync } from '@/hooks/useKeepstrSync';
 import { useAppLayout } from './AppLayout';
 import { useAppContext } from '@/hooks/useAppContext';
 import { SUGGESTED_RELAYS } from '@/lib/types';
@@ -23,10 +23,10 @@ const THEME_OPTIONS: { value: ThemeOption; label: string; icon: React.ReactNode 
 ];
 
 export default function AppSettings() {
-  useSeoMeta({ title: 'Settings — Pinstr' });
+  useSeoMeta({ title: 'Settings — Keepstr' });
 
-  const { settings, updateSettings } = usePinstrSettings();
-  const sync = usePinstrSync();
+  const { settings, updateSettings } = useKeepstrSettings();
+  const sync = useKeepstrSync();
   const { updateConfig } = useAppContext();
   const { bookmarks, collections } = useAppLayout();
 
@@ -95,7 +95,7 @@ export default function AppSettings() {
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = `pinstr-export-${new Date().toISOString().split('T')[0]}.json`;
+      a.download = `keepstr-export-${new Date().toISOString().split('T')[0]}.json`;
       a.click();
       URL.revokeObjectURL(url);
       toast.success('Bookmarks exported');
@@ -114,7 +114,7 @@ export default function AppSettings() {
       <Card>
         <CardHeader>
           <CardTitle>Appearance</CardTitle>
-          <CardDescription>Customize how Pinstr looks.</CardDescription>
+          <CardDescription>Customize how Keepstr looks.</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <div>
@@ -265,7 +265,7 @@ export default function AppSettings() {
       {/* About */}
       <div className="text-center text-xs text-muted-foreground pb-8">
         <p>
-          Pinstr — Decentralized Bookmark Manager
+          Keepstr — Decentralized Bookmark Manager
         </p>
         <p className="mt-1">
           Vibed with{' '}

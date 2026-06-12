@@ -43,7 +43,7 @@ export function useCollections() {
       };
       await db.collections.add(collection);
       await refresh();
-      queryClient.invalidateQueries({ queryKey: ['pinstr', 'collections'] });
+      queryClient.invalidateQueries({ queryKey: ['keepstr', 'collections'] });
       return collection;
     },
     [refresh, queryClient],
@@ -53,7 +53,7 @@ export function useCollections() {
     async (id: string, changes: Partial<CollectionData>): Promise<void> => {
       await db.collections.update(id, { ...changes, updatedAt: Date.now() });
       await refresh();
-      queryClient.invalidateQueries({ queryKey: ['pinstr', 'collections'] });
+      queryClient.invalidateQueries({ queryKey: ['keepstr', 'collections'] });
     },
     [refresh, queryClient],
   );
@@ -75,7 +75,7 @@ export function useCollections() {
 
       await db.collections.delete(id);
       await refresh();
-      queryClient.invalidateQueries({ queryKey: ['pinstr', 'collections'] });
+      queryClient.invalidateQueries({ queryKey: ['keepstr', 'collections'] });
     },
     [refresh, queryClient],
   );

@@ -4,12 +4,12 @@ import { toast } from 'sonner';
 import { useCurrentUser } from '@/hooks/useCurrentUser';
 import { useBookmarks } from '@/hooks/useBookmarks';
 import { useCollections } from '@/hooks/useCollections';
-import { usePinstrSync } from '@/hooks/usePinstrSync';
-import { AppNavBar } from '@/components/pinstr/AppNavBar';
-import { AppSidebar } from '@/components/pinstr/AppSidebar';
-import { SaveBookmarkModal } from '@/components/pinstr/SaveBookmarkModal';
-import { CollectionModal } from '@/components/pinstr/CollectionModal';
-import { CommandPalette } from '@/components/pinstr/CommandPalette';
+import { useKeepstrSync } from '@/hooks/useKeepstrSync';
+import { AppNavBar } from '@/components/keepstr/AppNavBar';
+import { AppSidebar } from '@/components/keepstr/AppSidebar';
+import { SaveBookmarkModal } from '@/components/keepstr/SaveBookmarkModal';
+import { CollectionModal } from '@/components/keepstr/CollectionModal';
+import { CommandPalette } from '@/components/keepstr/CommandPalette';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Plus } from 'lucide-react';
@@ -27,7 +27,7 @@ interface AppLayoutContextType {
   bookmarkCounts: Record<string, number>;
   loadingBookmarks: boolean;
   loadingCollections: boolean;
-  publishBookmark: ReturnType<typeof usePinstrSync>['publishBookmark'];
+  publishBookmark: ReturnType<typeof useKeepstrSync>['publishBookmark'];
   deleteBookmarkAndSync: (id: string, eventId: string | null) => Promise<void>;
 }
 
@@ -44,7 +44,7 @@ export function AppLayout() {
   const { user } = useCurrentUser();
   const bookmarksHook = useBookmarks();
   const collectionsHook = useCollections();
-  const sync = usePinstrSync();
+  const sync = useKeepstrSync();
 
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [commandOpen, setCommandOpen] = useState(false);

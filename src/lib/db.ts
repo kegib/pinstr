@@ -6,13 +6,13 @@ interface SyncMeta {
   value: string | number | null;
 }
 
-class PinstrDatabase extends Dexie {
+class KeepstrDatabase extends Dexie {
   bookmarks!: EntityTable<LocalBookmark, 'id'>;
   collections!: EntityTable<LocalCollection, 'id'>;
   syncMeta!: EntityTable<SyncMeta, 'key'>;
 
   constructor() {
-    super('pinstr');
+    super('keepstr');
 
     this.version(1).stores({
       bookmarks: 'id, url, *tags, *collections, createdAt, updatedAt',
@@ -22,4 +22,4 @@ class PinstrDatabase extends Dexie {
   }
 }
 
-export const db = new PinstrDatabase();
+export const db = new KeepstrDatabase();
