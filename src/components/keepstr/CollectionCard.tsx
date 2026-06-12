@@ -9,7 +9,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { Button } from '@/components/ui/button';
 
 interface CollectionCardProps {
   collection: LocalCollection;
@@ -28,35 +27,38 @@ export function CollectionCard({
 }: CollectionCardProps) {
   return (
     <div
-      className={cn(
-        'group relative bg-card border border-border rounded-xl overflow-hidden',
-        'shadow-sm hover:shadow-md transition-all duration-200 animate-fade-in',
-        className,
-      )}
+      className={cn('group relative overflow-hidden animate-fade-in transition-all duration-150', className)}
+      style={{
+        background: '#141418',
+        border: '1px solid #1f1f25',
+        borderRadius: '5px',
+      }}
+      onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.borderColor = '#2a2a32'; }}
+      onMouseLeave={e => { (e.currentTarget as HTMLDivElement).style.borderColor = '#1f1f25'; }}
     >
-      {/* Color accent bar */}
-      <div
-        className="h-1.5 w-full"
-        style={{ backgroundColor: collection.color }}
-      />
+      {/* Accent top bar */}
+      <div className="h-px w-full" style={{ background: collection.color, opacity: 0.7 }} />
 
-      <div className="p-5">
+      <div className="p-4">
         <div className="flex items-start justify-between gap-2">
-          <div className="flex items-center gap-3">
-            <span
-              className="text-2xl w-10 h-10 flex items-center justify-center rounded-lg shrink-0"
-              style={{ backgroundColor: `${collection.color}20` }}
+          <div className="flex items-center gap-2.5">
+            <div
+              className="w-9 h-9 flex items-center justify-center text-lg rounded shrink-0"
+              style={{ background: `${collection.color}1a`, borderRadius: '3px' }}
             >
               {collection.icon}
-            </span>
+            </div>
             <div className="min-w-0">
               <Link
                 to={`/app/collections/${collection.id}`}
-                className="font-semibold text-sm hover:text-primary transition-colors line-clamp-1"
+                className="text-xs font-semibold line-clamp-1 transition-colors"
+                style={{ color: '#ececf0', textDecoration: 'none' }}
+                onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.color = '#9B8FFF'; }}
+                onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.color = '#ececf0'; }}
               >
                 {collection.name}
               </Link>
-              <p className="text-xs text-muted-foreground mt-0.5">
+              <p className="text-[10px] mt-0.5" style={{ color: '#5a5a6a' }}>
                 {bookmarkCount} {bookmarkCount === 1 ? 'bookmark' : 'bookmarks'}
               </p>
             </div>
@@ -64,36 +66,44 @@ export function CollectionCard({
 
           <div className="flex items-center gap-1 shrink-0">
             {collection.isPublic ? (
-              <Globe className="w-3 h-3 text-primary" />
+              <Globe className="w-3 h-3" style={{ color: '#7B68EE' }} />
             ) : (
-              <Lock className="w-3 h-3 text-muted-foreground" />
+              <Lock className="w-3 h-3" style={{ color: '#5a5a6a' }} />
             )}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="h-7 w-7 opacity-0 group-hover:opacity-100 transition-opacity"
+                <button
+                  className="h-6 w-6 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+                  style={{ background: 'transparent', border: 'none', color: '#8a8a98', cursor: 'pointer', borderRadius: '3px' }}
+                  onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.background = '#1a1a20'; }}
+                  onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.background = 'transparent'; }}
                 >
-                  <MoreHorizontal className="h-4 w-4" />
-                </Button>
+                  <MoreHorizontal className="h-3.5 w-3.5" />
+                </button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
+              <DropdownMenuContent
+                align="end"
+                className="text-xs border"
+                style={{ background: '#111113', borderColor: '#2a2a32', fontFamily: 'inherit', minWidth: '130px' }}
+              >
                 {onEdit && (
-                  <DropdownMenuItem onClick={() => onEdit(collection)}>
-                    <Edit className="w-3.5 h-3.5 mr-2" />
-                    Edit
+                  <DropdownMenuItem
+                    className="text-xs cursor-pointer"
+                    style={{ color: '#c8c8d0' }}
+                    onClick={() => onEdit(collection)}
+                  >
+                    <Edit className="w-3 h-3 mr-2" /> edit
                   </DropdownMenuItem>
                 )}
                 {onDelete && (
                   <>
-                    <DropdownMenuSeparator />
+                    <DropdownMenuSeparator style={{ background: '#1f1f25' }} />
                     <DropdownMenuItem
-                      className="text-destructive focus:text-destructive"
+                      className="text-xs cursor-pointer"
+                      style={{ color: '#FF5A5A' }}
                       onClick={() => onDelete(collection)}
                     >
-                      <Trash2 className="w-3.5 h-3.5 mr-2" />
-                      Delete
+                      <Trash2 className="w-3 h-3 mr-2" /> delete
                     </DropdownMenuItem>
                   </>
                 )}
@@ -103,7 +113,7 @@ export function CollectionCard({
         </div>
 
         {collection.description && (
-          <p className="mt-3 text-xs text-muted-foreground line-clamp-2 leading-relaxed">
+          <p className="mt-2.5 text-[11px] line-clamp-2 leading-relaxed" style={{ color: '#8a8a98' }}>
             {collection.description}
           </p>
         )}

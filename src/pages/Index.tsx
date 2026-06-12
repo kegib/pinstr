@@ -1,31 +1,30 @@
 import { useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useSeoMeta } from '@unhead/react';
-import { Bookmark, Lock, Globe, Search, Zap, ArrowRight, Star } from 'lucide-react';
+import { Bookmark, Lock, Globe, Search, Zap, ArrowRight } from 'lucide-react';
 import { useCurrentUser } from '@/hooks/useCurrentUser';
-import { Button } from '@/components/ui/button';
 import { LoginArea } from '@/components/auth/LoginArea';
 
 const FEATURES = [
   {
-    icon: <Lock className="w-5 h-5" />,
-    title: 'Private by default',
-    description: 'All bookmarks are encrypted to your Nostr key. Only you can read them.',
+    icon: <Lock className="w-4 h-4" />,
+    title: 'private by default',
+    description: 'All bookmarks are NIP-44 encrypted to your key. Relays see nothing.',
   },
   {
-    icon: <Globe className="w-5 h-5" />,
-    title: 'Share what you want',
-    description: 'Toggle any bookmark public to share it on your Nostr profile page.',
+    icon: <Globe className="w-4 h-4" />,
+    title: 'public sharing',
+    description: 'Toggle any bookmark public. It appears on your /p/<npub> profile page.',
   },
   {
-    icon: <Search className="w-5 h-5" />,
-    title: 'Instant search',
+    icon: <Search className="w-4 h-4" />,
+    title: 'instant search',
     description: 'Full-text search across titles, descriptions, notes, and tags.',
   },
   {
-    icon: <Zap className="w-5 h-5" />,
-    title: 'No servers',
-    description: 'Your data lives on the Nostr relay network. No sign-up, no vendor lock-in.',
+    icon: <Zap className="w-4 h-4" />,
+    title: 'no servers',
+    description: 'Backend is the Nostr relay network. No account, no lock-in.',
   },
 ];
 
@@ -34,9 +33,8 @@ export default function Index() {
   const { user } = useCurrentUser();
 
   useSeoMeta({
-    title: 'Keepstr — Decentralized Bookmark Manager',
-    description:
-      'Save, organize, and optionally share bookmarks using the Nostr protocol. Private by default, open by choice.',
+    title: 'keepstr — decentralized bookmark manager',
+    description: 'Save, organize, and share bookmarks using the Nostr protocol. Private by default.',
   });
 
   useEffect(() => {
@@ -44,109 +42,133 @@ export default function Index() {
   }, [user, navigate]);
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen" style={{ background: '#0a0a0a', color: '#c8c8d0', fontFamily: "'SF Mono','JetBrains Mono','Cascadia Code','Fira Code',Menlo,Consolas,monospace", fontSize: '13px' }}>
+
       {/* Header */}
-      <header className="border-b border-border">
-        <div className="max-w-5xl mx-auto px-6 h-16 flex items-center justify-between">
+      <header style={{ borderBottom: '1px solid #1f1f25', background: 'linear-gradient(180deg, #0d0d10 0%, #0a0a0a 100%)' }}>
+        <div className="max-w-4xl mx-auto px-6 h-14 flex items-center justify-between">
           <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
-              <Bookmark className="w-4 h-4 text-primary-foreground" />
+            <div className="w-7 h-7 rounded flex items-center justify-center" style={{ background: '#7B68EE', borderRadius: '4px' }}>
+              <Bookmark className="w-3.5 h-3.5" style={{ color: '#0a0a0a' }} />
             </div>
-            <span className="font-bold text-lg tracking-tight">Keepstr</span>
+            <span className="font-bold text-sm tracking-wide" style={{ color: '#9B8FFF', letterSpacing: '0.6px' }}>
+              keepstr
+            </span>
           </div>
-          <div className="flex items-center gap-3">
-            <LoginArea className="max-w-44" />
-          </div>
+          <LoginArea className="max-w-44" />
         </div>
       </header>
 
       {/* Hero */}
-      <section className="max-w-5xl mx-auto px-6 py-24 text-center">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-sm font-medium mb-8">
-          <Star className="w-3.5 h-3.5" />
-          Built on Nostr
+      <section className="max-w-4xl mx-auto px-6 py-24">
+        {/* Terminal badge */}
+        <div
+          className="inline-flex items-center gap-2 px-3 py-1 mb-8 text-[11px]"
+          style={{ border: '1px solid #2a2a32', borderRadius: '3px', color: '#7B68EE', background: 'rgba(123,104,238,0.08)' }}
+        >
+          <span style={{ color: '#3DDC84' }}>●</span>
+          built on nostr
         </div>
 
-        <h1 className="text-5xl sm:text-6xl font-bold tracking-tight mb-6 leading-tight">
-          Your bookmarks,
-          <br />
-          <span className="text-primary">decentralized.</span>
+        <h1
+          className="text-4xl sm:text-5xl font-bold mb-4 leading-tight"
+          style={{ color: '#ececf0', letterSpacing: '-0.5px' }}
+        >
+          your bookmarks,{' '}
+          <span style={{ color: '#9B8FFF' }}>decentralized.</span>
         </h1>
 
-        <p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-10 leading-relaxed">
-          Keepstr is a bookmark manager that uses the Nostr protocol as its backend.
-          Your data is encrypted, portable, and owned entirely by you.
+        <p className="text-base mb-10 max-w-xl leading-relaxed" style={{ color: '#8a8a98' }}>
+          keepstr is a bookmark manager backed by the Nostr protocol.
+          Encrypted, portable, owned entirely by you — no server required.
         </p>
 
-        <div className="flex items-center justify-center gap-4 flex-wrap">
+        <div className="flex items-center gap-3 flex-wrap">
           <LoginArea className="max-w-48" />
-          <Button variant="outline" asChild>
-            <a href="#features" className="gap-2">
-              Learn more
-              <ArrowRight className="w-4 h-4" />
-            </a>
-          </Button>
+          <a
+            href="#features"
+            className="inline-flex items-center gap-1.5 px-4 py-2 text-xs transition-all"
+            style={{
+              border: '1px solid #2a2a32',
+              borderRadius: '3px',
+              color: '#c8c8d0',
+              textDecoration: 'none',
+            }}
+            onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.borderColor = '#7B68EE'; (e.currentTarget as HTMLAnchorElement).style.color = '#9B8FFF'; }}
+            onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.borderColor = '#2a2a32'; (e.currentTarget as HTMLAnchorElement).style.color = '#c8c8d0'; }}
+          >
+            learn more
+            <ArrowRight className="w-3 h-3" />
+          </a>
         </div>
 
-        {/* Preview mockup */}
-        <div className="mt-16 relative">
-          <div className="bg-card border border-border rounded-2xl shadow-2xl overflow-hidden">
-            <div className="h-8 bg-muted/50 border-b border-border flex items-center gap-2 px-4">
-              <div className="w-3 h-3 rounded-full bg-red-400" />
-              <div className="w-3 h-3 rounded-full bg-yellow-400" />
-              <div className="w-3 h-3 rounded-full bg-green-400" />
-              <div className="flex-1 mx-4">
-                <div className="h-4 bg-muted rounded-md max-w-xs mx-auto" />
-              </div>
-            </div>
-            <div className="p-6 grid grid-cols-1 sm:grid-cols-3 gap-4">
-              {['Design Resources', 'Tech Articles', 'Startup Tools'].map((title, i) => (
-                <div key={i} className="bg-background rounded-xl border border-border p-4 text-left">
-                  <div className="flex items-center gap-2 mb-3">
-                    <div className="w-6 h-6 rounded bg-primary/20 flex items-center justify-center text-xs">
-                      {['🎨', '💻', '🚀'][i]}
-                    </div>
-                    <span className="text-sm font-medium">{title}</span>
-                  </div>
-                  <div className="space-y-2">
-                    {Array.from({ length: 3 }).map((_, j) => (
-                      <div key={j} className="flex items-center gap-2">
-                        <div className="w-4 h-4 rounded bg-muted shrink-0" />
-                        <div
-                          className="h-3 bg-muted rounded-md"
-                          style={{ width: `${60 + j * 15}%` }}
-                        />
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              ))}
-            </div>
+        {/* Terminal mockup */}
+        <div className="mt-16 overflow-hidden" style={{ border: '1px solid #1f1f25', borderRadius: '5px', background: '#111113' }}>
+          {/* Window chrome */}
+          <div
+            className="flex items-center gap-2 px-4 py-2.5"
+            style={{ borderBottom: '1px solid #1f1f25', background: '#0a0a0a' }}
+          >
+            <div className="w-2.5 h-2.5 rounded-full" style={{ background: '#FF5A5A' }} />
+            <div className="w-2.5 h-2.5 rounded-full" style={{ background: '#FFB020' }} />
+            <div className="w-2.5 h-2.5 rounded-full" style={{ background: '#3DDC84' }} />
+            <span className="ml-2 text-[11px]" style={{ color: '#5a5a6a' }}>keepstr — all bookmarks</span>
           </div>
-          {/* Glow */}
-          <div className="absolute -inset-4 -z-10 bg-primary/5 blur-3xl rounded-3xl" />
+          {/* Mock grid */}
+          <div className="p-4 grid grid-cols-1 sm:grid-cols-3 gap-3">
+            {[
+              { icon: '🎨', name: 'Design', count: 12, color: '#7B68EE' },
+              { icon: '💻', name: 'Dev Tools', count: 8, color: '#3DDC84' },
+              { icon: '🚀', name: 'Startups', count: 5, color: '#FFB020' },
+            ].map((col) => (
+              <div
+                key={col.name}
+                className="p-3"
+                style={{ background: '#141418', border: '1px solid #1f1f25', borderRadius: '3px', borderTop: `2px solid ${col.color}` }}
+              >
+                <div className="flex items-center gap-2 mb-2">
+                  <span>{col.icon}</span>
+                  <span className="text-xs font-medium" style={{ color: '#ececf0' }}>{col.name}</span>
+                  <span className="ml-auto text-[10px]" style={{ color: '#5a5a6a' }}>{col.count}</span>
+                </div>
+                <div className="space-y-1.5">
+                  {[85, 65, 75].map((w, i) => (
+                    <div key={i} className="flex items-center gap-2">
+                      <div className="w-3 h-3 rounded-sm shrink-0" style={{ background: '#1f1f25' }} />
+                      <div className="h-2 rounded-sm" style={{ width: `${w}%`, background: '#2a2a32' }} />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
       {/* Features */}
-      <section id="features" className="max-w-5xl mx-auto px-6 py-20">
-        <h2 className="text-3xl font-bold text-center mb-12">
-          Everything you need, nothing you don't
-        </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+      <section id="features" className="max-w-4xl mx-auto px-6 py-16">
+        <div
+          className="text-[10px] uppercase tracking-widest mb-6"
+          style={{ color: '#5a5a6a', letterSpacing: '1.8px' }}
+        >
+          Features
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           {FEATURES.map((f) => (
             <div
               key={f.title}
-              className="flex gap-4 p-6 bg-card border border-border rounded-xl"
+              className="flex gap-3 p-4"
+              style={{ background: '#111113', border: '1px solid #1f1f25', borderRadius: '5px' }}
             >
-              <div className="w-10 h-10 rounded-lg bg-primary/10 text-primary flex items-center justify-center shrink-0">
+              <div
+                className="w-8 h-8 flex items-center justify-center shrink-0"
+                style={{ background: 'rgba(123,104,238,0.12)', borderRadius: '3px', color: '#7B68EE' }}
+              >
                 {f.icon}
               </div>
               <div>
-                <h3 className="font-semibold mb-1">{f.title}</h3>
-                <p className="text-sm text-muted-foreground leading-relaxed">
-                  {f.description}
-                </p>
+                <h3 className="text-xs font-semibold mb-1" style={{ color: '#ececf0' }}>{f.title}</h3>
+                <p className="text-[11px] leading-relaxed" style={{ color: '#8a8a98' }}>{f.description}</p>
               </div>
             </div>
           ))}
@@ -154,34 +176,43 @@ export default function Index() {
       </section>
 
       {/* CTA */}
-      <section className="max-w-5xl mx-auto px-6 py-20">
-        <div className="bg-primary rounded-2xl p-10 text-center text-primary-foreground">
-          <h2 className="text-3xl font-bold mb-4">Ready to take control?</h2>
-          <p className="text-primary-foreground/80 mb-8 max-w-lg mx-auto">
-            Connect your Nostr identity and start saving bookmarks in seconds.
+      <section className="max-w-4xl mx-auto px-6 py-16">
+        <div
+          className="p-8 text-center"
+          style={{ background: '#111113', border: '1px solid #2a2a32', borderRadius: '5px', borderTop: '1px solid #7B68EE' }}
+        >
+          <h2 className="text-xl font-bold mb-2" style={{ color: '#ececf0' }}>
+            ready to take control?
+          </h2>
+          <p className="text-xs mb-6" style={{ color: '#8a8a98' }}>
+            connect your Nostr identity and start saving bookmarks in seconds.
           </p>
-          <LoginArea className="max-w-48 mx-auto [&_button]:bg-white [&_button]:text-primary [&_button]:hover:bg-white/90" />
+          <div className="flex justify-center">
+            <LoginArea className="max-w-48" />
+          </div>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-border">
-        <div className="max-w-5xl mx-auto px-6 py-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-muted-foreground">
+      <footer style={{ borderTop: '1px solid #1f1f25' }}>
+        <div className="max-w-4xl mx-auto px-6 py-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-[11px]" style={{ color: '#5a5a6a' }}>
           <div className="flex items-center gap-2">
-            <div className="w-5 h-5 rounded bg-primary flex items-center justify-center">
-              <Bookmark className="w-2.5 h-2.5 text-primary-foreground" />
+            <div className="w-4 h-4 rounded flex items-center justify-center" style={{ background: '#7B68EE', borderRadius: '2px' }}>
+              <Bookmark className="w-2 h-2" style={{ color: '#0a0a0a' }} />
             </div>
-            <span>Keepstr</span>
+            <span>keepstr</span>
           </div>
           <p>
-            Vibed with{' '}
+            vibed with{' '}
             <a
               href="https://shakespeare.diy"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-primary hover:underline"
+              style={{ color: '#7B68EE', textDecoration: 'none' }}
+              onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.textDecoration = 'underline'; }}
+              onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.textDecoration = 'none'; }}
             >
-              Shakespeare
+              shakespeare
             </a>
           </p>
         </div>

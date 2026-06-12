@@ -34,26 +34,36 @@ export default function AppDashboard() {
   };
 
   return (
-    <div className="p-6 max-w-7xl mx-auto">
+    <div className="p-5 max-w-7xl mx-auto">
       {/* Page header */}
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex items-center justify-between mb-5">
         <div>
-          <h1 className="text-2xl font-bold">All Bookmarks</h1>
+          <h1 className="text-sm font-bold uppercase tracking-widest" style={{ color: '#ececf0', letterSpacing: '1.8px' }}>
+            all bookmarks
+          </h1>
           {!loadingBookmarks && (
-            <p className="text-sm text-muted-foreground mt-0.5">
+            <p className="text-[11px] mt-0.5" style={{ color: '#5a5a6a' }}>
               {bookmarks.length} {bookmarks.length === 1 ? 'bookmark' : 'bookmarks'}
             </p>
           )}
         </div>
-        <Button
-          variant="outline"
-          size="sm"
+        <button
           onClick={() => setSortDesc((p) => !p)}
-          className="gap-1.5"
+          className="flex items-center gap-1.5 px-3 py-1.5 text-[11px] transition-all"
+          style={{
+            border: '1px solid #2a2a32',
+            borderRadius: '3px',
+            color: '#8a8a98',
+            background: 'transparent',
+            fontFamily: 'inherit',
+            cursor: 'pointer',
+          }}
+          onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.borderColor = '#7B68EE'; (e.currentTarget as HTMLButtonElement).style.color = '#9B8FFF'; }}
+          onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.borderColor = '#2a2a32'; (e.currentTarget as HTMLButtonElement).style.color = '#8a8a98'; }}
         >
-          {sortDesc ? <SortDesc className="w-4 h-4" /> : <SortAsc className="w-4 h-4" />}
-          {sortDesc ? 'Newest' : 'Oldest'}
-        </Button>
+          {sortDesc ? <SortDesc className="w-3 h-3" /> : <SortAsc className="w-3 h-3" />}
+          {sortDesc ? 'newest' : 'oldest'}
+        </button>
       </div>
 
       <BookmarkGrid

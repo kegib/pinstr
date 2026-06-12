@@ -3,6 +3,18 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* ─── Token bridge: nostr-station palette → Tailwind CSS vars ───────────── */
+/*
+  nostr-station source values (app.css):
+    --bg: #0a0a0a  --bg-elev: #111113  --bg-card: #141418  --bg-hover: #1a1a20
+    --border: #1f1f25  --border-strong: #2a2a32
+    --text: #c8c8d0  --text-dim: #8a8a98  --text-bright: #ececf0  --muted: #5a5a6a
+    --accent: #7B68EE  --accent-bright: #9B8FFF  --accent-dim: #5A4FBF
+    --success: #3DDC84  --warn: #FFB020  --error: #FF5A5A  --info: #A89FFF
+    --font-mono: 'SF Mono', 'JetBrains Mono', ...
+    --r-sm: 3px  --r: 5px  --r-lg: 8px
+*/
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -48,126 +60,116 @@
   --color-sidebar-ring: var(--sidebar-ring);
 
   --radius-lg: var(--radius);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-xl: calc(var(--radius) + 4px);
+  --radius-md: calc(var(--radius) - 1px);
+  --radius-sm: calc(var(--radius) - 2px);
+  --radius-xl: calc(var(--radius) + 3px);
 
   --animate-accordion-down: accordion-down 0.2s ease-out;
   --animate-accordion-up: accordion-up 0.2s ease-out;
 
   @keyframes accordion-down {
     from { height: 0; }
-    to { height: var(--radix-accordion-content-height); }
+    to   { height: var(--radix-accordion-content-height); }
   }
-
   @keyframes accordion-up {
     from { height: var(--radix-accordion-content-height); }
-    to { height: 0; }
+    to   { height: 0; }
   }
 }
 
 @utility container {
   margin-inline: auto;
   padding-inline: 2rem;
-  @media (width >= 1400px) {
-    max-width: 1400px;
-  }
+  @media (width >= 1400px) { max-width: 1400px; }
 }
 
-/* ─── Keepstr Light Theme ─────────────────────────────────────────────────── */
+/* ─── nostr-station dark theme (default, always-on) ────────────────────── */
 :root {
-  --radius: 0.75rem;
+  /* tight corners matching nostr-station --r-sm: 3px / --r: 5px */
+  --radius: 0.3125rem; /* 5px */
 
-  /* Keepstr uses a warm slate + indigo palette */
-  --background: hsl(220 20% 98%);
-  --foreground: hsl(224 71% 4%);
+  /* backgrounds — maps directly to nostr-station bg tokens */
+  --background:          #0a0a0a;   /* --bg */
+  --foreground:          #c8c8d0;   /* --text */
 
-  --card: hsl(0 0% 100%);
-  --card-foreground: hsl(224 71% 4%);
+  --card:                #141418;   /* --bg-card */
+  --card-foreground:     #c8c8d0;
 
-  --popover: hsl(0 0% 100%);
-  --popover-foreground: hsl(224 71% 4%);
+  --popover:             #111113;   /* --bg-elev */
+  --popover-foreground:  #ececf0;   /* --text-bright */
 
-  /* Indigo primary */
-  --primary: hsl(243 75% 59%);
-  --primary-foreground: hsl(0 0% 100%);
+  /* purple accent — nostr-station --accent: #7B68EE */
+  --primary:             #7B68EE;
+  --primary-foreground:  #0a0a0a;
 
-  --secondary: hsl(220 14% 96%);
-  --secondary-foreground: hsl(220 9% 46%);
+  --secondary:           #1a1a20;   /* --bg-hover */
+  --secondary-foreground:#c8c8d0;
 
-  --muted: hsl(220 14% 96%);
-  --muted-foreground: hsl(220 9% 46%);
+  --muted:               #111113;   /* --bg-elev */
+  --muted-foreground:    #5a5a6a;   /* --muted */
 
-  --accent: hsl(243 75% 96%);
-  --accent-foreground: hsl(243 75% 40%);
+  /* accent-soft — color-mix(--accent 12%, transparent) */
+  --accent:              rgba(123, 104, 238, 0.12);
+  --accent-foreground:   #9B8FFF;   /* --accent-bright */
 
-  --destructive: hsl(0 84% 60%);
-  --destructive-foreground: hsl(0 0% 100%);
+  --destructive:         #FF5A5A;   /* --error */
+  --destructive-foreground: #0a0a0a;
 
-  --border: hsl(220 13% 91%);
-  --input: hsl(220 13% 91%);
-  --ring: hsl(243 75% 59%);
+  --border:              #1f1f25;   /* --border */
+  --input:               #2a2a32;   /* --border-strong */
+  --ring:                #7B68EE;
 
-  --chart-1: hsl(243 75% 59%);
-  --chart-2: hsl(173 58% 39%);
-  --chart-3: hsl(197 37% 24%);
-  --chart-4: hsl(43 74% 66%);
-  --chart-5: hsl(27 87% 67%);
+  --chart-1: #7B68EE;
+  --chart-2: #3DDC84;  /* success */
+  --chart-3: #FFB020;  /* warn */
+  --chart-4: #FF5A5A;  /* error */
+  --chart-5: #A89FFF;  /* info */
 
-  --sidebar: hsl(220 20% 97%);
-  --sidebar-foreground: hsl(224 71% 10%);
-  --sidebar-primary: hsl(243 75% 59%);
-  --sidebar-primary-foreground: hsl(0 0% 100%);
-  --sidebar-accent: hsl(243 75% 95%);
-  --sidebar-accent-foreground: hsl(243 75% 40%);
-  --sidebar-border: hsl(220 13% 91%);
-  --sidebar-ring: hsl(243 75% 59%);
+  /* sidebar — same as bg-elev */
+  --sidebar:                     #111113;
+  --sidebar-foreground:          #c8c8d0;
+  --sidebar-primary:             #7B68EE;
+  --sidebar-primary-foreground:  #0a0a0a;
+  --sidebar-accent:              rgba(123, 104, 238, 0.12);
+  --sidebar-accent-foreground:   #9B8FFF;
+  --sidebar-border:              #1f1f25;
+  --sidebar-ring:                #7B68EE;
 }
 
-/* ─── Keepstr Dark Theme ──────────────────────────────────────────────────── */
+/* The app is dark-only; .dark mirrors :root so existing dark: variants work */
 .dark {
-  --background: hsl(224 71% 4%);
-  --foreground: hsl(213 31% 91%);
-
-  --card: hsl(224 40% 7%);
-  --card-foreground: hsl(213 31% 91%);
-
-  --popover: hsl(224 40% 7%);
-  --popover-foreground: hsl(213 31% 91%);
-
-  --primary: hsl(243 75% 65%);
-  --primary-foreground: hsl(0 0% 100%);
-
-  --secondary: hsl(222 47% 12%);
-  --secondary-foreground: hsl(215 20% 65%);
-
-  --muted: hsl(222 47% 12%);
-  --muted-foreground: hsl(215 20% 55%);
-
-  --accent: hsl(243 40% 15%);
-  --accent-foreground: hsl(243 75% 75%);
-
-  --destructive: hsl(0 63% 40%);
-  --destructive-foreground: hsl(0 0% 100%);
-
-  --border: hsl(222 47% 14%);
-  --input: hsl(222 47% 14%);
-  --ring: hsl(243 75% 65%);
-
-  --chart-1: hsl(243 75% 65%);
-  --chart-2: hsl(160 60% 45%);
-  --chart-3: hsl(30 80% 55%);
-  --chart-4: hsl(280 65% 60%);
-  --chart-5: hsl(340 75% 55%);
-
-  --sidebar: hsl(224 40% 6%);
-  --sidebar-foreground: hsl(213 31% 85%);
-  --sidebar-primary: hsl(243 75% 65%);
-  --sidebar-primary-foreground: hsl(0 0% 100%);
-  --sidebar-accent: hsl(243 40% 12%);
-  --sidebar-accent-foreground: hsl(243 75% 75%);
-  --sidebar-border: hsl(222 47% 11%);
-  --sidebar-ring: hsl(243 75% 65%);
+  --background:          #0a0a0a;
+  --foreground:          #c8c8d0;
+  --card:                #141418;
+  --card-foreground:     #c8c8d0;
+  --popover:             #111113;
+  --popover-foreground:  #ececf0;
+  --primary:             #7B68EE;
+  --primary-foreground:  #0a0a0a;
+  --secondary:           #1a1a20;
+  --secondary-foreground:#c8c8d0;
+  --muted:               #111113;
+  --muted-foreground:    #5a5a6a;
+  --accent:              rgba(123, 104, 238, 0.12);
+  --accent-foreground:   #9B8FFF;
+  --destructive:         #FF5A5A;
+  --destructive-foreground: #0a0a0a;
+  --border:              #1f1f25;
+  --input:               #2a2a32;
+  --ring:                #7B68EE;
+  --chart-1: #7B68EE;
+  --chart-2: #3DDC84;
+  --chart-3: #FFB020;
+  --chart-4: #FF5A5A;
+  --chart-5: #A89FFF;
+  --sidebar:                     #111113;
+  --sidebar-foreground:          #c8c8d0;
+  --sidebar-primary:             #7B68EE;
+  --sidebar-primary-foreground:  #0a0a0a;
+  --sidebar-accent:              rgba(123, 104, 238, 0.12);
+  --sidebar-accent-foreground:   #9B8FFF;
+  --sidebar-border:              #1f1f25;
+  --sidebar-ring:                #7B68EE;
 }
 
 @layer base {
@@ -181,39 +183,50 @@
 
   body {
     @apply bg-background text-foreground;
-    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    /* nostr-station uses monospace for the entire UI */
+    font-family: 'SF Mono', 'JetBrains Mono', 'Cascadia Code', 'Fira Code',
+                 Menlo, Consolas, ui-monospace, monospace;
+    font-size: 13px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
   }
 }
 
-/* ─── Custom scrollbar ───────────────────────────────────────────────────── */
-::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-}
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-::-webkit-scrollbar-thumb {
-  background: hsl(var(--border));
-  border-radius: 99px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: hsl(var(--muted-foreground) / 0.5);
-}
+/* ─── Scrollbar — nostr-station style ──────────────────────────────────── */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #2a2a32; border-radius: 99px; }
+::-webkit-scrollbar-thumb:hover { background: #5A4FBF; }
 
-/* ─── Keepstr animations ──────────────────────────────────────────────────── */
+/* ─── Animations ────────────────────────────────────────────────────────── */
 @keyframes fade-in {
-  from { opacity: 0; transform: translateY(4px); }
-  to { opacity: 1; transform: translateY(0); }
+  from { opacity: 0; transform: translateY(3px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
-.animate-fade-in {
-  animation: fade-in 0.2s ease-out;
-}
+.animate-fade-in { animation: fade-in 0.14s ease-out; }
 
 @keyframes scale-in {
-  from { opacity: 0; transform: scale(0.95); }
-  to { opacity: 1; transform: scale(1); }
+  from { opacity: 0; transform: scale(0.96); }
+  to   { opacity: 1; transform: scale(1); }
 }
-.animate-scale-in {
-  animation: scale-in 0.15s ease-out;
+.animate-scale-in { animation: scale-in 0.12s ease-out; }
+
+/* ─── Status dots (nostr-station .dot) ──────────────────────────────────── */
+.ns-dot {
+  display: inline-block;
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: #5a5a6a;
+  flex-shrink: 0;
+}
+.ns-dot.ok   { background: #3DDC84; box-shadow: 0 0 5px rgba(61,220,132,0.5); }
+.ns-dot.warn { background: #FFB020; box-shadow: 0 0 5px rgba(255,176,32,0.4); }
+.ns-dot.err  { background: #FF5A5A; box-shadow: 0 0 5px rgba(255,90,90,0.4); }
+
+/* ─── Section label (nostr-station .section-title uppercase caps) ────────── */
+.ns-label {
+  font-size: 10px;
+  letter-spacing: 1.8px;
+  text-transform: uppercase;
+  color: #5a5a6a;
 }

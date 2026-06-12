@@ -11,7 +11,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { Button } from '@/components/ui/button';
 
 interface BookmarkCardProps {
   bookmark: LocalBookmark;
@@ -35,97 +34,108 @@ export function BookmarkCard({
   const timeAgo = formatDistanceToNow(new Date(bookmark.savedAt), { addSuffix: true });
 
   const hostname = (() => {
-    try {
-      return new URL(bookmark.url).hostname.replace(/^www\./, '');
-    } catch {
-      return bookmark.url;
-    }
+    try { return new URL(bookmark.url).hostname.replace(/^www\./, ''); }
+    catch { return bookmark.url; }
   })();
 
   return (
     <div
       className={cn(
-        'group relative flex flex-col bg-card border border-border rounded-xl overflow-hidden',
-        'shadow-sm hover:shadow-md transition-all duration-200 animate-fade-in',
+        'group relative flex flex-col overflow-hidden animate-fade-in transition-all duration-150',
         className,
       )}
+      style={{
+        background: '#141418',
+        border: '1px solid #1f1f25',
+        borderRadius: '5px',
+      }}
+      onMouseEnter={e => {
+        (e.currentTarget as HTMLDivElement).style.borderColor = '#2a2a32';
+      }}
+      onMouseLeave={e => {
+        (e.currentTarget as HTMLDivElement).style.borderColor = '#1f1f25';
+      }}
     >
-      {/* Image */}
+      {/* Cover image */}
       {bookmark.image && (
-        <div className="aspect-video overflow-hidden bg-muted">
+        <div className="aspect-video overflow-hidden" style={{ background: '#111113' }}>
           <img
             src={bookmark.image}
             alt={bookmark.title}
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover opacity-80"
             onError={(e) => {
-              (e.currentTarget as HTMLImageElement).style.display = 'none';
+              (e.currentTarget.parentElement as HTMLElement).style.display = 'none';
             }}
           />
         </div>
       )}
 
-      <div className="flex flex-col gap-2 p-4 flex-1">
-        {/* Site info */}
+      <div className="flex flex-col gap-2 p-3.5 flex-1">
+        {/* Site row */}
         <div className="flex items-center justify-between gap-2">
-          <div className="flex items-center gap-2 min-w-0">
+          <div className="flex items-center gap-1.5 min-w-0">
             {bookmark.favicon ? (
               <img
                 src={bookmark.favicon}
                 alt=""
-                className="w-4 h-4 rounded-sm shrink-0"
-                onError={(e) => {
-                  (e.currentTarget as HTMLImageElement).style.display = 'none';
-                }}
+                className="w-3.5 h-3.5 rounded-sm shrink-0 opacity-80"
+                onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }}
               />
             ) : (
-              <Globe className="w-4 h-4 text-muted-foreground shrink-0" />
+              <Globe className="w-3.5 h-3.5 shrink-0" style={{ color: '#5a5a6a' }} />
             )}
-            <span className="text-xs text-muted-foreground truncate">{hostname}</span>
+            <span className="text-[11px] truncate" style={{ color: '#8a8a98' }}>{hostname}</span>
           </div>
           <div className="flex items-center gap-1 shrink-0">
             {bookmark.isPublic ? (
-              <Globe className="w-3 h-3 text-primary" />
+              <Globe className="w-3 h-3" style={{ color: '#7B68EE' }} />
             ) : (
-              <Lock className="w-3 h-3 text-muted-foreground" />
+              <Lock className="w-3 h-3" style={{ color: '#5a5a6a' }} />
             )}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="h-6 w-6 opacity-0 group-hover:opacity-100 transition-opacity"
+                <button
+                  className="h-5 w-5 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+                  style={{ background: 'transparent', border: 'none', color: '#8a8a98', cursor: 'pointer', borderRadius: '3px' }}
+                  onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.background = '#1a1a20'; }}
+                  onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.background = 'transparent'; }}
                 >
                   <MoreHorizontal className="h-3 w-3" />
-                </Button>
+                </button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
-                <DropdownMenuItem asChild>
+              <DropdownMenuContent
+                align="end"
+                className="text-xs border"
+                style={{ background: '#111113', borderColor: '#2a2a32', fontFamily: 'inherit', minWidth: '140px' }}
+              >
+                <DropdownMenuItem asChild className="text-xs cursor-pointer" style={{ color: '#c8c8d0' }}>
                   <Link to={`/app/bookmark/${bookmark.id}`}>
-                    <Eye className="w-3.5 h-3.5 mr-2" />
-                    View
+                    <Eye className="w-3 h-3 mr-2" /> view
                   </Link>
                 </DropdownMenuItem>
                 {onEdit && (
-                  <DropdownMenuItem onClick={() => onEdit(bookmark)}>
-                    <Edit className="w-3.5 h-3.5 mr-2" />
-                    Edit
+                  <DropdownMenuItem
+                    className="text-xs cursor-pointer"
+                    style={{ color: '#c8c8d0' }}
+                    onClick={() => onEdit(bookmark)}
+                  >
+                    <Edit className="w-3 h-3 mr-2" /> edit
                   </DropdownMenuItem>
                 )}
-                <DropdownMenuItem asChild>
+                <DropdownMenuItem asChild className="text-xs cursor-pointer" style={{ color: '#c8c8d0' }}>
                   <a href={bookmark.url} target="_blank" rel="noopener noreferrer">
-                    <ExternalLink className="w-3.5 h-3.5 mr-2" />
-                    Open URL
+                    <ExternalLink className="w-3 h-3 mr-2" /> open url
                   </a>
                 </DropdownMenuItem>
                 {onDelete && (
                   <>
-                    <DropdownMenuSeparator />
+                    <DropdownMenuSeparator style={{ background: '#1f1f25' }} />
                     <DropdownMenuItem
-                      className="text-destructive focus:text-destructive"
+                      className="text-xs cursor-pointer"
+                      style={{ color: '#FF5A5A' }}
                       onClick={() => onDelete(bookmark)}
                     >
-                      <Trash2 className="w-3.5 h-3.5 mr-2" />
-                      Delete
+                      <Trash2 className="w-3 h-3 mr-2" /> delete
                     </DropdownMenuItem>
                   </>
                 )}
@@ -137,31 +147,36 @@ export function BookmarkCard({
         {/* Title */}
         <Link
           to={`/app/bookmark/${bookmark.id}`}
-          className="font-semibold text-sm leading-tight line-clamp-2 hover:text-primary transition-colors"
+          className="text-xs font-semibold leading-snug line-clamp-2 transition-colors"
+          style={{ color: '#ececf0', textDecoration: 'none' }}
+          onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.color = '#9B8FFF'; }}
+          onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.color = '#ececf0'; }}
         >
           {bookmark.title || hostname}
         </Link>
 
         {/* Description */}
         {bookmark.description && (
-          <p className="text-xs text-muted-foreground line-clamp-2 leading-relaxed">
+          <p className="text-[11px] line-clamp-2 leading-relaxed" style={{ color: '#8a8a98' }}>
             {bookmark.description}
           </p>
         )}
 
         {/* Footer */}
-        <div className="mt-auto pt-2 flex flex-col gap-2">
-          {/* Collections */}
+        <div className="mt-auto pt-2 flex flex-col gap-1.5">
           {bookmarkCollections.length > 0 && (
             <div className="flex flex-wrap gap-1">
               {bookmarkCollections.map((col) => (
                 <Link
                   key={col.id}
                   to={`/app/collections/${col.id}`}
-                  className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium transition-colors"
+                  className="inline-flex items-center gap-1 px-1.5 py-0.5 text-[10px] font-medium transition-opacity hover:opacity-80"
                   style={{
-                    backgroundColor: `${col.color}20`,
+                    borderRadius: '3px',
+                    background: `${col.color}1a`,
                     color: col.color,
+                    textDecoration: 'none',
+                    border: `1px solid ${col.color}30`,
                   }}
                 >
                   <span>{col.icon}</span>
@@ -171,21 +186,18 @@ export function BookmarkCard({
             </div>
           )}
 
-          {/* Tags */}
           {bookmark.tags.length > 0 && (
             <div className="flex flex-wrap gap-1">
               {bookmark.tags.slice(0, 4).map((tag) => (
                 <TagBadge key={tag} tag={tag} />
               ))}
               {bookmark.tags.length > 4 && (
-                <span className="text-xs text-muted-foreground">
-                  +{bookmark.tags.length - 4}
-                </span>
+                <span className="text-[10px]" style={{ color: '#5a5a6a' }}>+{bookmark.tags.length - 4}</span>
               )}
             </div>
           )}
 
-          <span className="text-xs text-muted-foreground">{timeAgo}</span>
+          <span className="text-[10px]" style={{ color: '#5a5a6a' }}>{timeAgo}</span>
         </div>
       </div>
     </div>

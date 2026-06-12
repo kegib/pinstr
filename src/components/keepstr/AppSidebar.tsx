@@ -5,14 +5,11 @@ import {
   Settings,
   Upload,
   Plus,
-  ChevronRight,
   Home,
 } from 'lucide-react';
 import type { LocalCollection } from '@/lib/types';
 import { cn } from '@/lib/utils';
-import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { Separator } from '@/components/ui/separator';
 
 interface AppSidebarProps {
   collections?: LocalCollection[];
@@ -42,17 +39,33 @@ function NavItem({ to, icon, label, count, exact = false, onClick }: NavItemProp
     <Link
       to={to}
       onClick={onClick}
-      className={cn(
-        'flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-all',
-        isActive
-          ? 'bg-sidebar-accent text-sidebar-accent-foreground'
-          : 'text-sidebar-foreground hover:bg-sidebar-accent/50 hover:text-sidebar-accent-foreground',
-      )}
+      className="flex items-center gap-2.5 px-2.5 py-2 text-xs transition-all duration-100"
+      style={{
+        borderRadius: '3px',
+        color: isActive ? '#9B8FFF' : '#c8c8d0',
+        background: isActive ? 'rgba(123,104,238,0.12)' : 'transparent',
+        textDecoration: 'none',
+        fontFamily: 'inherit',
+      }}
+      onMouseEnter={e => {
+        if (!isActive) {
+          (e.currentTarget as HTMLAnchorElement).style.background = '#1a1a20';
+          (e.currentTarget as HTMLAnchorElement).style.color = '#ececf0';
+        }
+      }}
+      onMouseLeave={e => {
+        if (!isActive) {
+          (e.currentTarget as HTMLAnchorElement).style.background = 'transparent';
+          (e.currentTarget as HTMLAnchorElement).style.color = '#c8c8d0';
+        }
+      }}
     >
-      <span className="shrink-0">{icon}</span>
+      <span className="w-4 h-4 flex items-center justify-center shrink-0" style={{ color: isActive ? '#7B68EE' : '#8a8a98' }}>
+        {icon}
+      </span>
       <span className="flex-1 truncate">{label}</span>
       {count !== undefined && (
-        <span className="text-xs text-muted-foreground tabular-nums">{count}</span>
+        <span className="text-[10px] tabular-nums" style={{ color: '#5a5a6a' }}>{count}</span>
       )}
     </Link>
   );
@@ -68,81 +81,118 @@ export function AppSidebar({
 }: AppSidebarProps) {
   return (
     <aside
-      className={cn(
-        'flex flex-col w-64 bg-sidebar border-r border-sidebar-border h-full',
-        className,
-      )}
+      className={cn('flex flex-col w-56 h-full', className)}
+      style={{ background: '#111113', borderRight: '1px solid #1f1f25' }}
     >
-      {/* Logo */}
-      <div className="flex items-center gap-2.5 px-4 py-4 border-b border-sidebar-border">
-        <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
-          <Bookmark className="w-4 h-4 text-primary-foreground" />
+      {/* Brand */}
+      <div
+        className="flex items-center gap-2.5 px-4 py-3.5"
+        style={{ borderBottom: '1px solid #1f1f25' }}
+      >
+        <div
+          className="w-7 h-7 rounded flex items-center justify-center shrink-0"
+          style={{ background: '#7B68EE' }}
+        >
+          <Bookmark className="w-3.5 h-3.5" style={{ color: '#0a0a0a' }} />
         </div>
-        <span className="font-bold text-lg tracking-tight">Keepstr</span>
+        <div>
+          <div className="text-sm font-bold tracking-wide" style={{ color: '#9B8FFF', letterSpacing: '0.6px' }}>
+            keepstr
+          </div>
+          <div className="text-[10px]" style={{ color: '#5a5a6a', letterSpacing: '0.3px' }}>
+            nostr bookmarks
+          </div>
+        </div>
       </div>
 
       <ScrollArea className="flex-1 px-3 py-3">
-        <nav className="space-y-1">
+        {/* Section label */}
+        <div
+          className="px-2.5 pb-2 text-[10px] uppercase tracking-widest"
+          style={{ color: '#5a5a6a', letterSpacing: '1.8px' }}
+        >
+          Navigation
+        </div>
+
+        <nav className="flex flex-col gap-0.5">
           <NavItem
             to="/app"
             exact
             icon={<Home className="w-4 h-4" />}
-            label="All Bookmarks"
+            label="all bookmarks"
             onClick={onClose}
           />
           <NavItem
             to="/app/collections"
             icon={<FolderOpen className="w-4 h-4" />}
-            label="Collections"
+            label="collections"
             onClick={onClose}
           />
           <NavItem
             to="/app/import"
             icon={<Upload className="w-4 h-4" />}
-            label="Import"
+            label="import"
             onClick={onClose}
           />
           <NavItem
             to="/app/settings"
             icon={<Settings className="w-4 h-4" />}
-            label="Settings"
+            label="settings"
             onClick={onClose}
           />
         </nav>
 
+        {/* Collections section */}
         {collections.length > 0 && (
           <>
-            <div className="flex items-center justify-between px-3 py-3 mt-2">
-              <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+            <div
+              className="flex items-center justify-between px-2.5 pt-4 pb-2"
+            >
+              <span
+                className="text-[10px] uppercase tracking-widest"
+                style={{ color: '#5a5a6a', letterSpacing: '1.8px' }}
+              >
                 Collections
               </span>
               {onNewCollection && (
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="h-5 w-5"
-                  onClick={onNewCollection}
+                <button
+                  onClick={() => onNewCollection()}
+                  className="flex items-center justify-center w-4 h-4 transition-colors"
+                  style={{ background: 'transparent', border: 'none', color: '#5a5a6a', cursor: 'pointer', padding: 0 }}
+                  onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.color = '#9B8FFF'; }}
+                  onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.color = '#5a5a6a'; }}
                   title="New collection"
                 >
-                  <Plus className="h-3 w-3" />
-                </Button>
+                  <Plus className="w-3 h-3" />
+                </button>
               )}
             </div>
-            <nav className="space-y-0.5">
+            <nav className="flex flex-col gap-0.5">
               {collections.map((col) => (
                 <Link
                   key={col.id}
                   to={`/app/collections/${col.id}`}
                   onClick={onClose}
-                  className={cn(
-                    'flex items-center gap-2.5 px-3 py-1.5 rounded-lg text-sm transition-all',
-                    'text-sidebar-foreground hover:bg-sidebar-accent/50 hover:text-sidebar-accent-foreground',
-                  )}
+                  className="flex items-center gap-2 px-2.5 py-1.5 text-xs transition-all duration-100"
+                  style={{
+                    borderRadius: '3px',
+                    color: '#c8c8d0',
+                    textDecoration: 'none',
+                    fontFamily: 'inherit',
+                  }}
+                  onMouseEnter={e => {
+                    (e.currentTarget as HTMLAnchorElement).style.background = '#1a1a20';
+                    (e.currentTarget as HTMLAnchorElement).style.color = '#ececf0';
+                  }}
+                  onMouseLeave={e => {
+                    (e.currentTarget as HTMLAnchorElement).style.background = 'transparent';
+                    (e.currentTarget as HTMLAnchorElement).style.color = '#c8c8d0';
+                  }}
                 >
-                  <span className="text-base leading-none">{col.icon}</span>
+                  <span className="text-sm leading-none">{col.icon}</span>
                   <span className="flex-1 truncate">{col.name}</span>
                   {bookmarkCounts[col.id] !== undefined && (
-                    <span className="text-xs text-muted-foreground tabular-nums">
+                    <span className="text-[10px] tabular-nums" style={{ color: '#5a5a6a' }}>
                       {bookmarkCounts[col.id]}
                     </span>
                   )}
@@ -153,16 +203,32 @@ export function AppSidebar({
         )}
       </ScrollArea>
 
-      {/* New bookmark */}
+      {/* Add bookmark CTA */}
       {onNewBookmark && (
-        <div className="p-3 border-t border-sidebar-border">
-          <Button
-            className="w-full gap-2"
+        <div className="p-3" style={{ borderTop: '1px solid #1f1f25' }}>
+          <button
+            className="w-full flex items-center justify-center gap-1.5 py-2 text-xs font-medium transition-all duration-120"
             onClick={() => { onNewBookmark(); onClose?.(); }}
+            style={{
+              borderRadius: '3px',
+              border: '1px solid #7B68EE',
+              color: '#9B8FFF',
+              background: 'transparent',
+              fontFamily: 'inherit',
+              cursor: 'pointer',
+            }}
+            onMouseEnter={e => {
+              (e.currentTarget as HTMLButtonElement).style.background = '#7B68EE';
+              (e.currentTarget as HTMLButtonElement).style.color = '#0a0a0a';
+            }}
+            onMouseLeave={e => {
+              (e.currentTarget as HTMLButtonElement).style.background = 'transparent';
+              (e.currentTarget as HTMLButtonElement).style.color = '#9B8FFF';
+            }}
           >
-            <Plus className="w-4 h-4" />
-            New Bookmark
-          </Button>
+            <Plus className="w-3.5 h-3.5" />
+            new bookmark
+          </button>
         </div>
       )}
     </aside>

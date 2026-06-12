@@ -48,41 +48,54 @@ export function AppNavBar({
     }, 200);
   }, [onSearchChange, navigate]);
 
-  const displayName = metadata?.name ?? metadata?.display_name ?? 'Anon';
+  const displayName = metadata?.name ?? metadata?.display_name ?? 'anon';
   const avatarUrl = metadata?.picture;
   const initials = displayName.charAt(0).toUpperCase();
 
   return (
-    <header className="h-14 border-b border-border bg-background/80 backdrop-blur-sm flex items-center gap-3 px-4 sticky top-0 z-40">
-      {/* Mobile menu button */}
+    <header
+      className="h-14 border-b flex items-center gap-3 px-4 sticky top-0 z-40"
+      style={{
+        borderColor: '#1f1f25',
+        background: 'linear-gradient(180deg, #0d0d10 0%, #0a0a0a 100%)',
+      }}
+    >
+      {/* Mobile menu */}
       <Button
         variant="ghost"
         size="icon"
-        className="lg:hidden shrink-0"
+        className="lg:hidden shrink-0 text-[#8a8a98] hover:text-[#9B8FFF] hover:bg-transparent"
         onClick={onMenuToggle}
       >
-        <Menu className="h-5 w-5" />
+        <Menu className="h-4 w-4" />
       </Button>
 
-      {/* Logo (visible on mobile) */}
+      {/* Wordmark (mobile) */}
       <Link
         to="/app"
-        className="lg:hidden font-bold text-lg tracking-tight text-primary shrink-0"
+        className="lg:hidden font-bold tracking-wide text-sm shrink-0"
+        style={{ color: '#9B8FFF', letterSpacing: '0.6px' }}
       >
-        Keepstr
+        keepstr
       </Link>
 
-      {/* Search bar */}
+      {/* Search */}
       <div className="flex-1 max-w-xl">
         <div className="relative">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+          <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5" style={{ color: '#5a5a6a' }} />
           <Input
-            placeholder="Search bookmarks… (Cmd+K)"
+            placeholder="search bookmarks… (⌘K)"
             value={localSearch}
             onChange={(e) => handleSearch(e.target.value)}
             onClick={onCommandPalette}
             readOnly={Boolean(onCommandPalette)}
-            className="pl-9 pr-4 h-9 bg-muted/50 border-0 focus-visible:ring-1 focus-visible:bg-background cursor-pointer"
+            className="pl-8 h-8 text-xs border cursor-pointer focus-visible:ring-1"
+            style={{
+              background: '#111113',
+              borderColor: '#2a2a32',
+              color: '#c8c8d0',
+              fontFamily: 'inherit',
+            }}
           />
         </div>
       </div>
@@ -90,45 +103,72 @@ export function AppNavBar({
       {/* Actions */}
       <div className="flex items-center gap-2 ml-auto shrink-0">
         {onNewBookmark && (
-          <Button
-            size="sm"
-            className="hidden sm:flex gap-1.5"
+          <button
             onClick={() => onNewBookmark()}
+            className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 text-xs border transition-all duration-120"
+            style={{
+              borderColor: '#7B68EE',
+              color: '#9B8FFF',
+              background: 'transparent',
+              borderRadius: '3px',
+              fontFamily: 'inherit',
+              cursor: 'pointer',
+            }}
+            onMouseEnter={e => {
+              (e.currentTarget as HTMLButtonElement).style.background = '#7B68EE';
+              (e.currentTarget as HTMLButtonElement).style.color = '#0a0a0a';
+            }}
+            onMouseLeave={e => {
+              (e.currentTarget as HTMLButtonElement).style.background = 'transparent';
+              (e.currentTarget as HTMLButtonElement).style.color = '#9B8FFF';
+            }}
           >
-            <Plus className="h-4 w-4" />
-            <span className="hidden md:inline">Add</span>
-          </Button>
+            <Plus className="h-3 w-3" />
+            <span className="hidden md:inline">add</span>
+          </button>
         )}
 
         {user ? (
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <button className="flex items-center gap-2 rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
-                <Avatar className="h-8 w-8">
+              <button
+                className="flex items-center gap-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-sm"
+              >
+                <Avatar className="h-7 w-7">
                   <AvatarImage src={avatarUrl} alt={displayName} />
-                  <AvatarFallback className="bg-primary text-primary-foreground text-sm font-semibold">
+                  <AvatarFallback
+                    className="text-xs font-bold"
+                    style={{ background: '#2a2a32', color: '#9B8FFF' }}
+                  >
                     {initials}
                   </AvatarFallback>
                 </Avatar>
+                <span className="hidden md:block text-xs truncate max-w-28" style={{ color: '#8a8a98' }}>
+                  {displayName}
+                </span>
               </button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-48">
-              <div className="px-3 py-2">
-                <p className="text-sm font-medium truncate">{displayName}</p>
-                <p className="text-xs text-muted-foreground truncate">
+            <DropdownMenuContent
+              align="end"
+              className="w-44 text-xs border"
+              style={{ background: '#111113', borderColor: '#2a2a32', fontFamily: 'inherit' }}
+            >
+              <div className="px-3 py-2 border-b" style={{ borderColor: '#1f1f25' }}>
+                <p className="font-medium truncate" style={{ color: '#ececf0' }}>{displayName}</p>
+                <p className="truncate mt-0.5" style={{ color: '#5a5a6a' }}>
                   {user.pubkey.slice(0, 8)}…
                 </p>
               </div>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem asChild>
-                <Link to="/app/settings">Settings</Link>
+              <DropdownMenuItem asChild className="text-xs cursor-pointer">
+                <Link to="/app/settings" style={{ color: '#c8c8d0' }}>settings</Link>
               </DropdownMenuItem>
-              <DropdownMenuSeparator />
+              <DropdownMenuSeparator style={{ background: '#1f1f25' }} />
               <DropdownMenuItem
-                className="text-destructive focus:text-destructive"
+                className="text-xs cursor-pointer"
+                style={{ color: '#FF5A5A' }}
                 onClick={logout}
               >
-                Sign out
+                sign out
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
